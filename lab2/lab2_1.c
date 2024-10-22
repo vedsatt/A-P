@@ -11,10 +11,11 @@ void cp() {
 int main() {
     cp();
     int k, m, n;
+    int lmax = 200;
     printf("Лабораторная работа №2.\n");
     printf("Задание 1.\n");
     printf("Введите количество строк матрицы (n), количество столбцов матрицы (m), количество элементов массива (k):\n");
-    while(scanf("%d %d %d", &n, &m, &k)!=3 || k<=0 || n<=0 ||m<=0){
+    while(scanf("%d %d %d", &n, &m, &k)!=3 || k<=0 || n<=0 || n > lmax || m > lmax || m<=0){
         int c;
         while((c=getchar())!='\n' && c!=EOF){}
         printf("Произошла ошибка. Введите заново.\n");
@@ -52,14 +53,40 @@ int main() {
     for (int i=0; i<k; i++){
         printf("%d\n", f[i]);
     }
-    // Даны целочисленная матрица Z[1:n, 1:m] и целочисленный массив F[1:k].
-    // Сформировать массив Q, состоящий из элементов столбцов матрицы Z,
-    // расположенных после первого отрицательного элемента каждого столбца этой матрицы и отсутствующих в массиве F.
-    int q[n * m];
+
+    int cnt = 0;
+    int q[200] = {0};
     int flag = 0;
     for (int i = 0; i < m; i++ ) {
+        int tmp = -1;
         for (int j = 0; j < n; j++ ) {
-            
+            int flag2 = 0;
+            int num = z[j][i];
+            if (num < 0 && flag == 0) {
+                flag = 1;
+                tmp = j;
+            }
+            printf("%d, %d\n", tmp, j);
+            if (flag == 1 && j != tmp) {
+                for (int x = 0; x < k; x++) {
+                    if (f[x] == num) {
+                        flag2 = 1;
+                    }
+                }
+                if (flag2 == 0) {
+                    q[cnt] = num;
+                    cnt++;
+                    }
+            }
         }
+        flag = 0;
     }
+    printf("Массив Q:\n");
+    for (int i=0; i<cnt; i++) {
+        printf("%d\n", q[i]);
+    }
+    printf("Задание 2\n");
+
+
+    return 0;
 }
