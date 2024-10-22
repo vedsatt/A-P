@@ -10,6 +10,7 @@ void cp() {
 
 int main() {
     cp();
+    int check = 0; 
     int k, m, n;
     int lmax = 200;
     printf("Лабораторная работа №2.\n");
@@ -66,7 +67,6 @@ int main() {
                 flag = 1;
                 tmp = j;
             }
-            printf("%d, %d\n", tmp, j);
             if (flag == 1 && j != tmp) {
                 for (int x = 0; x < k; x++) {
                     if (f[x] == num) {
@@ -81,11 +81,18 @@ int main() {
         }
         flag = 0;
     }
-    printf("Массив Q:\n");
+    int cntQ = 0;
     for (int i=0; i<cnt; i++) {
-        printf("%d\n", q[i]);
+        cntQ++;
     }
-    printf("Задание 2\n");
+    if (cntQ == 0) {
+        printf("Массив Q не содержит элементов\n");
+    } else {
+        printf("Массив Q:\n");
+        for (int i=0; i<cnt; i++) {
+            printf("%d\n", q[i]);
+        }
+    }
 
 
     return 0;

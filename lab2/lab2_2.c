@@ -30,7 +30,7 @@ int main() {
         while(scanf("%d", &arr[i])!=1){
             int c;
             while((c=getchar())!='\n' && c!=EOF){}
-  printf("Произошла ошибка. Введите заново.\n");
+                printf("Произошла ошибка. Введите заново.\n");
         }
     }
 
@@ -61,6 +61,7 @@ int main() {
             int tmp1 = num / pow10i % 10 * pow10i_1;
             int tmp2 = num / pow10i_1 % 10 * pow10i;
             int tmp_res = num % pow10i_1;
+
             res = res / (pow10i * 10) * (pow10i * 10);
             res = res + tmp2 + tmp1 + tmp_res;
             num = res;
@@ -70,8 +71,6 @@ int main() {
             } else {
                 arr[i] = res;
             }
-        } else {
-            break;
         }
 
         }
@@ -80,4 +79,4 @@ int main() {
     for (int i=0; i<k; i++){
         printf("%d\n", arr[i]);
     }
-} 
+}
