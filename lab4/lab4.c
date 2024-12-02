@@ -43,10 +43,11 @@ int extract(char *line, char result[][lmax], char *max, int *max_cnt, bool *flag
 
 }
 
-void insert_zero(char *string) {
+void insert_zero(char *string, int *check) {
     int i = 0;
     while (i < strlen(string)) {
         if (string[i] == '1') {
+            *check = 1;
             char tmp[strlen(string)+2];
             strncpy(tmp, string, i+1);
             tmp[i+1] = '0';
@@ -110,7 +111,12 @@ int main() {
         printf("В строках отсутствуют подстроки или цифры");
     } else {
         printf("Строка с максимальным числом цифр: %s\n", max);
-        insert_zero(lines[str_index]);
-        printf("Изменённая строка с номером %d: %s\n", str_index+1, lines[str_index]);
+        int check = 0;
+        insert_zero(lines[str_index], &check);
+        if (check) {
+            printf("Изменённая строка с номером %d: %s\n", str_index+1, lines[str_index]);
+        } else {
+            printf("Строка не содержит единиц");
+        }
     }
 }
