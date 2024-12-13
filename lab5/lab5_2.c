@@ -63,7 +63,7 @@ int main() {
         gets(newFile);
 
         if (strcmp(fileName, newFile) == 0) {
-            printf("¬ходной и выходной файл должны различатьс€\n");
+            printf("¬ходной и выходной файлы должны различатьс€\n");
         }
     } while (strcmp(fileName, newFile) == 0);
 
