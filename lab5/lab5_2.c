@@ -4,31 +4,14 @@
 #include <stdbool.h>
 #include <string.h>
 
-void write(char *fileName){
-    FILE *file = fopen(fileName, "w");
-    char str[81];
-    bool flag = true;
-
-    printf("¬ведите строки файла:\n");
-    while (flag) {
-        fgets(str, 81, stdin);
-        str[strcspn(str, "\n")] = '\0';
-
-        if (strlen(str) == 0) {
-            flag = false;
-        } else {
-            fprintf(file, "%s\n", str);
-        }
-    }
-
-    fclose(file);
-
-    printf("–езультат записан в файле %s\n", fileName);
-}
-
 void permutation(char *fileName, char *newFileName, bool *flag) {
-    FILE *file = fopen(fileName,"r");
+    FILE *file;
     FILE *result = fopen(newFileName, "w");
+
+    if (!(file = fopen(fileName,"r"))) {
+        printf("»сходный файл отсутствует");
+        exit(1);
+    }
     
     char str[81];
     while (fscanf(file, "%80[^\n]%*c", str) == 1) {
@@ -83,8 +66,6 @@ int main() {
             printf("¬ходной и выходной файл должны различатьс€\n");
         }
     } while (strcmp(fileName, newFile) == 0);
-
-    write(fileName);
 
     permutation(fileName, newFile, &flag);
 

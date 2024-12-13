@@ -4,7 +4,7 @@
 #include <locale.h>
 #include <stdbool.h>
 
-void write(char *fileName, bool *flag){
+void write(char *fileName, bool *flag) {
     FILE *file;
     float num;
 
@@ -19,7 +19,7 @@ void write(char *fileName, bool *flag){
     printf("Результат записан в файле %s\n",fileName);
 }
 
-void countNums(char *fileName, int *cnt) {
+void countNums(char *fileName, int *cnt, bool *flag) {
     FILE *file;
     float num;
 
@@ -31,6 +31,7 @@ void countNums(char *fileName, int *cnt) {
 
     while (fscanf(file, "%f", &num) == 1) { 
         if (num > 0) {
+            *flag = true;
             (*cnt)++;
         }
     }
@@ -38,7 +39,7 @@ void countNums(char *fileName, int *cnt) {
     fclose(file);
 }
 
-int main(){
+int main() {
     setlocale(LC_ALL, "Russian");
 
     printf("Лабораторная работа №5\n");
@@ -69,11 +70,16 @@ int main(){
     flag = false;
     write(name, &flag);
 
-    if (flag){
-        countNums(name, &cnt);
-        printf("Количество положительных чисел = %d", cnt);
+    if (flag) {
+        flag = false;
+        countNums(name, &cnt, &flag);
+        if (flag) {
+            printf("Количество положительных чисел = %d", cnt);
+        } else {
+            printf("В файле отсутствуют положительные числа");
+        }
     }
-    else{
+    else {
         printf("В файле отсутствуют числа");
     }
     return 0;
