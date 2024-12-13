@@ -1,69 +1,80 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <stdbool.h>
 
-char writetext(char *fileName){
+void write(char *fileName, bool *flag){
     FILE *file;
-    char flag = 0;
-    float q;
+    float num;
 
-    printf("РІРІРѕРґРёС‚Рµ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Рµ С‡РёСЃР»Р° С‡РёСЃР»Р° С‡РµСЂРµР· Enter, С‡РёСЃР»Р° РІРІРѕРґСЏС‚СЃСЏ РґРѕ РїРµСЂРІРѕРіРѕ РЅРµ С‡РёСЃР»Р°: ");
-    file=fopen(fileName,"w");
-    while (scanf("%f", &q)){
-        fprintf(file,"%f\n", q);
-        flag = 1;
+    printf("Введите действительные числа числа через Enter (числа считываются, пока не будет введена строка):\n");
+    file = fopen(fileName,"w");
+    while (scanf("%f", &num)) {
+        fprintf(file, "%f\n", num);
+        *flag = true;
     }
     fclose(file);
 
-    printf("Result is in file %s\n",fileName);
-
-    return flag;
+    printf("Результат записан в файле %s\n",fileName);
 }
 
-float getArray(char *fileName)
-{
-    FILE *file; 
-    //char c;
-    float min, q;
+void countNums(char *fileName, int *cnt) {
+    FILE *file;
+    float num;
+
     if (!(file=fopen(fileName,"r")))
     { 
-        puts("File not found");
+        puts("Файл не найден");
         exit(1);
     }
-    fscanf(file,"%f",&q);
-    min = q;
-    while(!feof(file)){
-        if ((fscanf(file,"%f",&q))==1){
-            if (fabs(q) < fabs(min)){
-                min = q;
-            }  
+
+    while (fscanf(file, "%f", &num) == 1) { 
+        if (num > 0) {
+            (*cnt)++;
         }
     }
     
     fclose(file);
-    return min;
 }
 
 int main(){
     setlocale(LC_ALL, "Russian");
 
-    float w;
+    printf("Лабораторная работа №5\n");
+    printf("Задание 1\n");
+
+    int cnt = 0;
     bool flag;
     char name[81];
 
-    printf("РІРІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РІ С„РѕСЂРјР°С‚Рµ name.txt: ");
-    gets(name);
-    flag = writetext(name);
+    char *point;
+    do {
+        flag = true;
+        printf("Введите имя файла в формате name.txt: ");
+        gets(name);
 
-    if (flag == 1){
-        w = getArray(name);
-        printf("СЂРµР·СѓР»СЊС‚Р°С‚ = %f", w);
+        point = strchr(name, '.');
+        if (point == NULL) {
+                flag = false;
+                printf("имя файла должно быть в формате name.txt\n");
+        } else {
+            if (strcmp(point, ".txt") != 0 && !(strcmp(point, name) == 0)) {
+                printf("имя файла должно быть в формате name.txt\n");
+                flag = false;
+            }
+        }
+    } while (!flag);
+
+    flag = false;
+    write(name, &flag);
+
+    if (flag){
+        countNums(name, &cnt);
+        printf("Количество положительных чисел = %d", cnt);
     }
     else{
-        printf("РІ С„Р°Р№Р»Рµ РЅРµ Р·Р°РїРёСЃР°РЅС‹ С‡РёСЃР»Р°");
+        printf("В файле отсутствуют числа");
     }
     return 0;
 }
