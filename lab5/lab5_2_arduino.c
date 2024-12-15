@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-const int chipSelect = 10; // РџРёРЅ CS РґР»СЏ MicroSD РєР°СЂС‚С‹
+const int chipSelect = 10; // Пин CS для MicroSD карты
 
 void permutation(char *fileName, char *newFileName, bool *flag) {
     File file = SD.open(fileName, FILE_READ);
@@ -10,7 +10,7 @@ void permutation(char *fileName, char *newFileName, bool *flag) {
     char str[81];
     while (file.available()) {
         String line = file.readStringUntil('\n');
-        line.trim(); // РЈР±РёСЂР°РµРј Р»РёС€РЅРёРµ РїСЂРѕР±РµР»С‹
+        line.trim(); // Убираем лишние пробелы
         line.toCharArray(str, 81);
 
         *flag = true;
@@ -37,7 +37,7 @@ void output(char *fileName) {
 
     while (result.available()) {
         String line = result.readStringUntil('\n');
-        line.trim(); // РЈР±РёСЂР°РµРј Р»РёС€РЅРёРµ РїСЂРѕР±РµР»С‹
+        line.trim(); // Убираем лишние пробелы
         Serial.println(line);
     }
 
@@ -48,33 +48,33 @@ void setup() {
     Serial.begin(9600);
 
     if (!SD.begin(chipSelect)) {
-        Serial.println("РћС€РёР±РєР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё SD РєР°СЂС‚С‹");
+        Serial.println("Ошибка инициализации SD карты");
         return;
     }
-    Serial.println("SD РєР°СЂС‚Р° СѓСЃРїРµС€РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅР°");
+    Serial.println("SD карта успешно инициализирована");
 
-    Serial.println("Р›Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ СЂР°Р±РѕС‚Р° в„–5");
-    Serial.println("Р—Р°РґР°РЅРёРµ 2");
+    Serial.println("Лабораторная работа №5");
+    Serial.println("Задание 2");
 
     bool flag = false;
     char fileName[81];
     char newFile[81];
 
     while (true) {
-        Serial.println("Р’РІРµРґРёС‚Рµ РёРјСЏ РІС…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р° РІ С„РѕСЂРјР°С‚Рµ name.txt:");
+        Serial.println("Введите имя входного файла в формате name.txt:");
         while (!Serial.available());
         String input = Serial.readStringUntil('\n');
-        input.trim(); // РЈР±РёСЂР°РµРј Р»РёС€РЅРёРµ РїСЂРѕР±РµР»С‹
+        input.trim(); // Убираем лишние пробелы
         input.toCharArray(fileName, 81);
 
-        Serial.println("Р’РІРµРґРёС‚Рµ РёРјСЏ РІС‹С…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р° РІ С„РѕСЂРјР°С‚Рµ name.txt:");
+        Serial.println("Введите имя выходного файла в формате name.txt:");
         while (!Serial.available());
         input = Serial.readStringUntil('\n');
-        input.trim(); // РЈР±РёСЂР°РµРј Р»РёС€РЅРёРµ РїСЂРѕР±РµР»С‹
+        input.trim(); // Убираем лишние пробелы
         input.toCharArray(newFile, 81);
 
         if (strcmp(fileName, newFile) == 0) {
-            Serial.println("Р’С…РѕРґРЅРѕР№ Рё РІС‹С…РѕРґРЅРѕР№ С„Р°Р№Р»С‹ РґРѕР»Р¶РЅС‹ СЂР°Р·Р»РёС‡Р°С‚СЊСЃСЏ");
+            Serial.println("Входной и выходной файлы должны различаться");
         } else {
             break;
         }
@@ -83,9 +83,9 @@ void setup() {
     permutation(fileName, newFile, &flag);
 
     if (!flag) {
-        Serial.println("Р¤Р°Р№Р» РїСѓСЃС‚");
+        Serial.println("Файл пуст");
     } else {
-        Serial.println("Р”Р°РЅРЅС‹Рµ, СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РІ РЅРѕРІС‹Р№ С„Р°Р№Р»:");
+        Serial.println("Данные, сохраненные в новый файл:");
         output(newFile);
     }
 }
