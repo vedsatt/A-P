@@ -16,7 +16,7 @@ void write(char *fileName, bool *flag) {
     }
     fclose(file);
 
-    printf("Строки записан в файле %s\n",fileName);
+    printf("Строки записаны в файле %s\n",fileName);
 }
 
 void countNums(char *fileName, int *cnt, bool *flag) {
