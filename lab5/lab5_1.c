@@ -8,7 +8,7 @@ void write(char *fileName, bool *flag) {
     FILE *file;
     float num;
 
-    printf("Введите действительные числа числа через Enter (числа считываются, пока не будет введена строка):\n");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ Г¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­Г»ГҐ Г·ГЁГ±Г«Г  Г·ГЁГ±Г«Г  Г·ГҐГ°ГҐГ§ Enter (Г·ГЁГ±Г«Г  Г±Г·ГЁГІГ»ГўГ ГѕГІГ±Гї, ГЇГ®ГЄГ  Г­ГҐ ГЎГіГ¤ГҐГІ ГўГўГҐГ¤ГҐГ­Г  Г±ГІГ°Г®ГЄГ ):\n");
     file = fopen(fileName,"w");
     while (scanf("%f", &num)) {
         fprintf(file, "%f\n", num);
@@ -16,7 +16,7 @@ void write(char *fileName, bool *flag) {
     }
     fclose(file);
 
-    printf("Результат записан в файле %s\n",fileName);
+    printf("ГђГҐГ§ГіГ«ГјГІГ ГІ Г§Г ГЇГЁГ±Г Г­ Гў ГґГ Г©Г«ГҐ %s\n",fileName);
 }
 
 void countNums(char *fileName, int *cnt, bool *flag) {
@@ -25,7 +25,7 @@ void countNums(char *fileName, int *cnt, bool *flag) {
 
     if (!(file=fopen(fileName,"r+")))
     { 
-        puts("Файл не найден");
+        puts("Г”Г Г©Г« Г­ГҐ Г­Г Г©Г¤ГҐГ­");
         exit(1);
     }
 
@@ -42,8 +42,8 @@ void countNums(char *fileName, int *cnt, bool *flag) {
 int main() {
     setlocale(LC_ALL, "Russian");
 
-    printf("Лабораторная работа №5\n");
-    printf("Задание 1\n");
+    printf("Г‹Г ГЎГ®Г°Г ГІГ®Г°Г­Г Гї Г°Г ГЎГ®ГІГ  В№5\n");
+    printf("Г‡Г Г¤Г Г­ГЁГҐ 1\n");
 
     int cnt = 0;
     bool flag;
@@ -52,16 +52,16 @@ int main() {
     char *point;
     do {
         flag = true;
-        printf("Введите имя файла в формате name.txt: ");
+        printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї ГґГ Г©Г«Г  Гў ГґГ®Г°Г¬Г ГІГҐ name.txt: ");
         gets(name);
 
         point = strchr(name, '.');
         if (point == NULL) {
                 flag = false;
-                printf("имя файла должно быть в формате name.txt\n");
+                printf("ГЁГ¬Гї ГґГ Г©Г«Г  Г¤Г®Г«Г¦Г­Г® ГЎГ»ГІГј Гў ГґГ®Г°Г¬Г ГІГҐ name.txt\n");
         } else {
             if (strcmp(point, ".txt") != 0 && !(strcmp(point, name) == 0)) {
-                printf("имя файла должно быть в формате name.txt\n");
+                printf("ГЁГ¬Гї ГґГ Г©Г«Г  Г¤Г®Г«Г¦Г­Г® ГЎГ»ГІГј Гў ГґГ®Г°Г¬Г ГІГҐ name.txt\n");
                 flag = false;
             }
         }
@@ -74,13 +74,13 @@ int main() {
         flag = false;
         countNums(name, &cnt, &flag);
         if (flag) {
-            printf("Количество положительных чисел = %d", cnt);
+            printf("ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г»Гµ Г·ГЁГ±ГҐГ« = %d", cnt);
         } else {
-            printf("В файле отсутствуют положительные числа");
+            printf("Г‚ ГґГ Г©Г«ГҐ Г®ГІГ±ГіГІГ±ГІГўГіГѕГІ ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г»ГҐ Г·ГЁГ±Г«Г ");
         }
     }
     else {
-        printf("В файле отсутствуют числа");
+        printf("Г‚ ГґГ Г©Г«ГҐ Г®ГІГ±ГіГІГ±ГІГўГіГѕГІ Г·ГЁГ±Г«Г ");
     }
     return 0;
 }
