@@ -1,2 +1,0 @@
-
-        fputs(newStr, result);

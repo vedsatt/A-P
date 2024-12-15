@@ -23,7 +23,7 @@ void countNums(char *fileName, int *cnt, bool *flag) {
     FILE *file;
     float num;
 
-    if (!(file=fopen(fileName,"r")))
+    if (!(file=fopen(fileName,"r+")))
     { 
         puts("Файл не найден");
         exit(1);
