@@ -22,6 +22,8 @@ struct Car {
     float engine_capacity;
 };
 
+struct Car cars[lmax];
+
 void input_cars(struct Car cars[], int *n) {
     int check;
     do {
@@ -33,7 +35,7 @@ void input_cars(struct Car cars[], int *n) {
     for (int i = 0; i < *n; i++) {
         printf("\nАвтомобиль №%d\n", i + 1);
         printf("Фирма: ");
-        gets(cars[i].firm);
+        gets(cars[i].firm);   
         printf("Модель (серийный номер): ");
         gets(cars[i].model.serial);
         printf("Модель (номер): ");
@@ -86,17 +88,15 @@ void find_cars(struct Car cars[], int cnt) {
             printf("\n");
             find = 1;
         }
-
-        if (!find) {
-            printf("Нет автомобилей с соответствующим объемом двигателя");
-        }
+    }
+    if (!find) {
+        printf("Нет автомобилей с соответствующим объемом двигателя");
     }
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
 
-    struct Car cars[lmax];
     int cars_cnt = 0;
     input_cars(cars, &cars_cnt);
 
