@@ -1,8 +1,8 @@
-// 11 43
 #define lmax 200
 
 #include <locale.h>
 #include <iostream>
+
 using namespace std;
 
 void arrayInput(int* arr, int *arr_len, char name) {\
