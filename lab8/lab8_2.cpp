@@ -7,6 +7,11 @@
 
 using namespace std;
 
+struct coords {
+    int x;
+    int y;
+};
+
 void inputMatrix(int (*A)[lmax], int* len) {
     cout << "Введите размер матрицы: ";
     do {
@@ -26,39 +31,39 @@ void inputMatrix(int (*A)[lmax], int* len) {
 
 void relocate(int (*A)[lmax], int* len) {
     int min = INT32_MAX;
-    int min_crd[2] = {-1, -1};
+    coords min_crd = {min_crd.x = -1, min_crd.y = -1};
     int neg = 1;
-    int neg_crd[2] = {-1, -1};
+    coords neg_crd = {neg_crd.x = -1, neg_crd.y = -1};
     bool flag = false;
 
     for (int i = 0; i < *len; i++) {
         for (int j = 0; j < *len; j++) {
             if (A[i][j] > 0 && A[i][j] < min) {
                 min = A[i][j];
-                min_crd[0] = i;
-                min_crd[1] = j;
+                min_crd.x = i;
+                min_crd.y = j;
             }
 
             if (!flag && A[i][j] < 0) {
                 neg = A[i][j];
-                neg_crd[0] = i;
-                neg_crd[1] = j;
+                neg_crd.x = i;
+                neg_crd.y = j;
                 flag = true;
             }
         }
     }
 
     if (neg == 1) {
-        throw invalid_argument("отрицательный элемент отсутствует");
+        throw invalid_argument("Отрицательный элемент отсутствует");
     }
 
     if (min == INT32_MAX) {
-        throw invalid_argument("положительный элемент отсутствует");
+        throw invalid_argument("Положительный элемент отсутствует");
     }
 
-    int tmp = A[neg_crd[0]][neg_crd[1]];
-    A[neg_crd[0]][neg_crd[1]] = A[min_crd[0]][min_crd[1]];
-    A[min_crd[0]][min_crd[1]] = tmp;
+    int tmp = A[neg_crd.x][neg_crd.y];
+    A[neg_crd.x][neg_crd.y] = A[min_crd.x][min_crd.y];
+    A[min_crd.x][min_crd.y] = tmp;
 }
 
 void outputMatrix(int (*A)[lmax], int* len) {
@@ -84,7 +89,8 @@ int main() {
     try {
         relocate(A, &len);
     } catch (const exception& err) {
-        cerr << "Ошибка: " << err.what() << endl;
+        cerr << err.what() << endl;
+        return 1;
     }
 
     outputMatrix(A, &len);

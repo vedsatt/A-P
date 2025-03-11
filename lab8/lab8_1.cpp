@@ -77,6 +77,11 @@ int main() {
 
     len_c = newArray(C, len_c, A, len_a, B, len_b);
 
+    if (len_c == 0) {
+        cout << "Массив C пустой";
+        return 1;
+    }
+
     outputArray(C, len_c);
 
     return 0;
