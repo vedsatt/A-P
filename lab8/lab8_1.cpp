@@ -10,10 +10,10 @@ void arrayInput(int* arr, int *arr_len, char name) {\
     do {
         cin >> *arr_len;
 
-        if (*arr_len == 0 && name == 'A') {
+        if ((*arr_len == 0 || *arr_len > 200) && name == 'A') {
             cout << "¬ведите допустимую длину массива A (0 < len_a <= 200): ";
         }
-    } while (*arr_len == 0 && name == 'A');
+    } while ((*arr_len == 0 || *arr_len > 200) && name == 'A');
     
     cout << "¬ведите элементы массива " << name << endl;
     for (int i = 0; i < *arr_len; i++) {
@@ -22,12 +22,14 @@ void arrayInput(int* arr, int *arr_len, char name) {\
 }
 
 int newArray(int* C, int len_c, int* A, int len_a, int* B, int len_b) {
-    for (int i = 0; i < len_a; i++) {
-        int curr = A[i];
+    int* i = A;
+    int ind = 0;
+    while (*i < len_a) {
+        int curr = *i;
         int flag = false;
 
         for (int j = 0; j < len_a && !flag; j++) {
-            if (i != j && curr == A[j]) {
+            if (ind != j && curr == A[j]) {
                 flag = true;
             }
         }
@@ -45,6 +47,9 @@ int newArray(int* C, int len_c, int* A, int len_a, int* B, int len_b) {
                 len_c++;
             }
         }
+
+        i++;
+        ind++;
     }
 
     return len_c;

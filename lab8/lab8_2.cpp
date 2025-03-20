@@ -1,4 +1,3 @@
-// В заданной целочисленной прямоугольной матрице поменять местами минимальный положительный и первый отрицательный элементы 11 43
 #define lmax 200
 
 #include <locale.h>
@@ -15,37 +14,39 @@ struct coords {
 void inputMatrix(int (*A)[lmax], int* len) {
     cout << "Введите размер матрицы: ";
     do {
-    cin >> *len;
-    if (*len <= 0) {
-        cout << "Введите допустимую длину (0 < len < 201):";
-    }
-    } while (*len <= 0);
+        cin >> *len;
+        if (*len <= 0 || *len > 200) {
+            cout << "Введите допустимую длину (0 < len < 201): ";
+        }
+    } while (*len <= 0 || *len > 200);
 
-    cout << "Введите элементы матрицы\n";
+    cout << "Введите элементы матрицы:\n";
     for (int i = 0; i < *len; i++) {
         for (int j = 0; j < *len; j++) {
-            cin >> A[i][j];
+            cin >> *(*(A + i) + j);
         }
     }
 }
 
-void relocate(int (*A)[lmax], int* len) {
+void relocate(int (*A)[lmax], int len) {
     int min = INT32_MAX;
-    coords min_crd = {min_crd.x = -1, min_crd.y = -1};
+    coords min_crd = {-1, -1};
     int neg = 1;
-    coords neg_crd = {neg_crd.x = -1, neg_crd.y = -1};
+    coords neg_crd = {-1, -1};
     bool flag = false;
 
-    for (int i = 0; i < *len; i++) {
-        for (int j = 0; j < *len; j++) {
-            if (A[i][j] > 0 && A[i][j] < min) {
-                min = A[i][j];
+    for (int i = 0; i < len; i++) {
+        for (int j = 0; j < len; j++) {
+            int curr = *(*(A + i) + j);
+
+            if (curr > 0 && curr < min) {
+                min = curr;
                 min_crd.x = i;
                 min_crd.y = j;
             }
 
-            if (!flag && A[i][j] < 0) {
-                neg = A[i][j];
+            if (!flag && curr < 0) {
+                neg = curr;
                 neg_crd.x = i;
                 neg_crd.y = j;
                 flag = true;
@@ -61,15 +62,15 @@ void relocate(int (*A)[lmax], int* len) {
         throw invalid_argument("Положительный элемент отсутствует");
     }
 
-    int tmp = A[neg_crd.x][neg_crd.y];
-    A[neg_crd.x][neg_crd.y] = A[min_crd.x][min_crd.y];
-    A[min_crd.x][min_crd.y] = tmp;
+    int tmp = *(*(A + neg_crd.x) + neg_crd.y);
+    *(*(A + neg_crd.x) + neg_crd.y) = *(*(A + min_crd.x) + min_crd.y);
+    *(*(A + min_crd.x) + min_crd.y) = tmp;
 }
 
-void outputMatrix(int (*A)[lmax], int* len) {
+void outputMatrix(int (*A)[lmax], int len) {
     cout << "Измененная матрица:\n";
-    for (int i = 0; i < *len; i++) {
-        for (int j = 0; j < *len; j++) {
+    for (int i = 0; i < len; i++) {
+        for (int j = 0; j < len; j++) {
             cout << A[i][j] << " ";
         }
         cout << endl;
@@ -79,7 +80,7 @@ void outputMatrix(int (*A)[lmax], int* len) {
 int main() {
     setlocale(LC_ALL, "Russian");
 
-    cout << "Лабораторная работа №8\n" << "Задание 1\n"; 
+    cout << "Лабораторная работа №8\n" << "Задание 1\n";
 
     int A[lmax][lmax];
     int len = 0;
@@ -87,13 +88,13 @@ int main() {
     inputMatrix(A, &len);
 
     try {
-        relocate(A, &len);
+        relocate(A, len);
     } catch (const exception& err) {
         cerr << err.what() << endl;
         return 1;
     }
 
-    outputMatrix(A, &len);
+    outputMatrix(A, len);
 
     return 0;
 }

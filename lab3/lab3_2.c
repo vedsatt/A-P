@@ -47,7 +47,7 @@ int z(int n, int  b[][lmax])
         }
     } 
     return min; 
-} 
+}
  
 int main() { 
     setlocale (LC_ALL, "Russian");
