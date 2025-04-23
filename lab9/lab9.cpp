@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cctype>
+#include <windows.h>
 
 using namespace std;
 
@@ -121,7 +122,8 @@ void removeSpaces(string* str) {
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian_Russia.1251");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     cout << "Лабораторная работа №9\n";
 
     vector<string> strings;
@@ -148,13 +150,14 @@ int main() {
     outputStruct(&substrings);
 
     substring target {-1}; 
-
     try {
         findWithoutLatin(&substrings, &target);
     } catch (const exception& err) {
         cout << err.what() << endl;
         return 0;
     }
+
+    cout << "Подстрока без латинских символов:\n" << target.str << endl;
 
     try {
         removeSpaces(&strings[target.parent]);
@@ -163,7 +166,7 @@ int main() {
         return 0;
     }
 
-    cout << "Измененная строка: " << strings[target.parent] << endl;
+    cout << "Измененная исходная строка:\n" << strings[target.parent] << endl;
 
     return 0;
 }
