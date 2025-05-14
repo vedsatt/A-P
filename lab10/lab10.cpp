@@ -162,20 +162,16 @@ List readData(const string filename) {
     string line;
     
     while (getline(file, line)) {
-        // Пропускаем пустые строки
         if (line.empty()) continue;
         
         Student student;
         
-        // Читаем группу
         try {
             student.Group = stoi(line);
         } catch (...) {
-            cerr << "Ошибка чтения номера группы" << endl;
-            continue;
+            throw runtime_error("Ошибка чтения номера группы");
         }
         
-        // Читаем оценки
         getline(file, line);
         istringstream marksStream(line);
         int sum = 0;
@@ -189,17 +185,14 @@ List readData(const string filename) {
         }
         
         if (!marksValid) {
-            cerr << "Ошибка чтения оценок для группы " << student.Group << endl;
-            continue;
+            throw runtime_error("Ошибка чтения оценок студента");
         }
         student.grades.average = static_cast<double>(sum) / 4;
         
-        // Читаем ФИО
         if (!getline(file, student.name.last) || 
             !getline(file, student.name.first) || 
             !getline(file, student.name.patronymic)) {
-            cerr << "Ошибка чтения ФИО для группы " << student.Group << endl;
-            continue;
+            throw runtime_error("Ошибка чтения ФИО студента");
         }
         
         studentList.addStudent(student);
