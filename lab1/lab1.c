@@ -98,39 +98,41 @@ int main() {
     float arifm;
     int limit = 200;
 
-    printf("Лабораторная работа №1\n");
+        do {
+        check = scanf("%d", &n);  // scanf возвращает 1, если введено число
+        
+        // Если ввод не число (check != 1)
+        if (check != 1) {
+            printf("Error: Введено не число! Пожалуйста, введите целое число.\n");
+            
+            // Очистка буфера ввода, чтобы избежать зацикливания
+            while (getchar() != '\n');
+            continue;  // Пропускаем остальные проверки и запрашиваем ввод снова
+        }
+        
+        // Проверка диапазона
+        if (n > limit) {
+            printf("Error: Число превышает лимит (%d)\n", limit);
+        } else if (n <= 0) {
+            printf("Error: Число должно быть больше 0\n");
+        }
+    } while (n > limit || n <= 0);
 
-    printf("Задание 1\n");
-    printf("Введите длину массива R от 1 до %d:\n", limit);
-    scanf("%d", &n);
-
-    if (n > limit) {
-        printf("Ваше число больше указанного лимита\n");
-        return 1;
-    } else if (n <= 0) {
-        printf("Ваше число меньше единицы\n");
-        return 1;
-    }
-
-    printf("Введите значения x, h, a:\n");
     scanf("%f %f %f", &a, &h, &x);
     float* array = CreateArray(n, x, h, a);
-    printf("R массив из %d элементов\n", n);
     for (int i = 0; i < n; i++) {
         printf("%f ", array[i]);
     }
     printf("\n");
-    printf("Задание 2\n");
     check = Delete(&array, &n);
     switch (check) {
         case -1:
-            printf("Нет положительного элемента\n");
+            printf("Notice: Нет положительного элемента\n");
             break;
         case -2:
-            printf("Последний положительный и первый максимальный элементы находятся рядом или совпадают\n");
+            printf("Notice: Последний положительный и первый максимальный элементы находятся рядом или совпадают\n");
             break;
         default:
-            printf("Массив R состоит из %d элементов\n", n);
             for (int i = 0; i < n; i++) {
                 printf("%f ", array[i]);
             }
@@ -138,12 +140,11 @@ int main() {
             break;
     }
 
-    printf("Задание 3\n");
     arifm = ArithmeticMean(array, n);
     if (isnan(arifm)) {
-        printf("Нет среднего значения\n");
+        printf("Notice: Нет среднего значения\n");
     } else {
-        printf("sr = %g\n", arifm);
+        printf("%g\n", arifm);
     }
 
     free(array);
